@@ -312,25 +312,26 @@ const PropagationEngine = (function() {
       });
     });
 
-    // Draw flying particles
-    simParticles.forEach((p, idx) => {
+    // Draw flying particles (iterating backwards for safe splicing)
+    for (let i = simParticles.length - 1; i >= 0; i--) {
+      const p = simParticles[i];
       p.t += p.speed;
       const curX = p.fromX + (p.toX - p.fromX) * p.t;
       const curY = p.fromY + (p.toY - p.fromY) * p.t;
 
       simCtx.beginPath();
-      simCtx.arc(curX, curY, 3, 0, Math.PI * 2);
-      simCtx.fillStyle = p.color;
-      simCtx.shadowColor = p.color;
-      simCtx.shadowBlur = 8;
+      simCtx.arc(curX, curY, 4, 0, Math.PI * 2);
+      simCtx.fillStyle = p.color || '#f59e0b';
+      simCtx.shadowColor = p.color || '#f59e0b';
+      simCtx.shadowBlur = 10;
       simCtx.fill();
       simCtx.shadowBlur = 0;
 
       if (p.t >= 1) {
-        p.targetNode.active = true;
-        simParticles.splice(idx, 1);
+        if (p.targetNode) p.targetNode.active = true;
+        simParticles.splice(i, 1);
       }
-    });
+    }
 
     // Draw nodes
     simNodes.forEach(node => {
@@ -360,19 +361,10 @@ const PropagationEngine = (function() {
   }
 
   function runSimulation(onComplete) {
+    // Force initialize canvas & network nodes using current visible bounds
+    initCascadeSimulator('globalCascadeCanvas');
+
     if (isSimulating) return;
-
-    // Auto-init canvas if missing or unbuilt
-    if (!simCanvas || !simCtx || simNodes.length === 0 || simCanvas.width === 0) {
-      initCascadeSimulator('globalCascadeCanvas');
-    }
-
-    if (!simNodes || simNodes.length === 0 || !simNodes[0]) {
-      isSimulating = false;
-      if (onComplete) onComplete();
-      return;
-    }
-
     isSimulating = true;
 
     try {
@@ -463,20 +455,26 @@ const PropagationEngine = (function() {
 
       setTimeout(() => {
         isSimulating = false;
-        if (onComplete) onComplete();
+        if (typeof onComplete === 'function') onComplete();
       }, 2800);
     } catch (err) {
       console.error("Simulation execution error:", err);
       isSimulating = false;
-      if (onComplete) onComplete();
+      if (typeof onComplete === 'function') onComplete();
     }
   }
 
-  return {
+  const publicApi = {
     renderFlowchart,
     renderStrengthBar,
     renderBreakdownCards,
     initCascadeSimulator,
     runSimulation
   };
+
+  if (typeof window !== 'undefined') {
+    window.PropagationEngine = publicApi;
+  }
+
+  return publicApi;
 })();

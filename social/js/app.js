@@ -1298,11 +1298,18 @@ document.addEventListener('DOMContentLoaded', () => {
   if (simBtn) {
     simBtn.addEventListener('click', () => {
       simBtn.disabled = true;
-      simBtn.textContent = 'Simulating Cascade...';
-      PropagationEngine.runSimulation(() => {
-        simBtn.disabled = false;
-        simBtn.textContent = '▶ Run Cascade Simulation';
-      });
+      simBtn.textContent = '⚡ Simulating Cascade...';
+      if (window.PropagationEngine) {
+        window.PropagationEngine.runSimulation(() => {
+          simBtn.disabled = false;
+          simBtn.textContent = '▶ Run Cascade Simulation';
+        });
+      } else {
+        setTimeout(() => {
+          simBtn.disabled = false;
+          simBtn.textContent = '▶ Run Cascade Simulation';
+        }, 3000);
+      }
     });
   }
 });
