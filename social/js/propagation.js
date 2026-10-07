@@ -181,16 +181,20 @@ const PropagationEngine = (function() {
    * Interactive Cascade Network Graph Simulator (for the dedicated Propagation view)
    */
   function initCascadeSimulator(canvasId) {
-    simCanvas = document.getElementById(canvasId);
+    simCanvas = document.getElementById(canvasId || 'globalCascadeCanvas');
     if (!simCanvas) return;
     simCtx = simCanvas.getContext('2d');
 
     const rect = simCanvas.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
-    const width = rect.width || 750;
-    const height = rect.height || 360;
+    const container = simCanvas.parentElement;
+    const containerRect = container ? container.getBoundingClientRect() : null;
+    const width = rect.width || (containerRect && containerRect.width) || 750;
+    const height = rect.height || (containerRect && containerRect.height) || 360;
+
     simCanvas.width = width * dpr;
     simCanvas.height = height * dpr;
+    simCtx.setTransform(1, 0, 0, 1, 0, 0);
     simCtx.scale(dpr, dpr);
 
     // Build node hierarchy: Source -> 3 Influencers -> 9 Amplifiers -> 27 General nodes
@@ -357,89 +361,115 @@ const PropagationEngine = (function() {
 
   function runSimulation(onComplete) {
     if (isSimulating) return;
-    isSimulating = true;
 
-    // Reset all nodes except source
-    simNodes.forEach((n, idx) => {
-      n.active = idx === 0;
-    });
-    simParticles = [];
-
-    // Stage 1 Trigger (Source -> Platform Hubs)
-    const source = simNodes[0];
-    source.connections.forEach(targetId => {
-      const target = simNodes.find(n => n.id === targetId);
-      simParticles.push({
-        fromX: source.x,
-        fromY: source.y,
-        toX: target.x,
-        toY: target.y,
-        t: 0,
-        speed: 0.025,
-        color: '#f59e0b',
-        targetNode: target
-      });
-    });
-
-    // Schedule Stage 2
-    setTimeout(() => {
-      for (let i = 1; i <= 3; i++) {
-        const inf = simNodes[i];
-        inf.connections.forEach(tId => {
-          const target = simNodes.find(n => n.id === tId);
-          if (target) {
-            simParticles.push({
-              fromX: inf.x,
-              fromY: inf.y,
-              toX: target.x,
-              toY: target.y,
-              t: 0,
-              speed: 0.035,
-              color: '#8b5cf6',
-              targetNode: target
-            });
-          }
-        });
-      }
-    }, 700);
-
-    // Schedule Stage 3 (Mass Viral Wave)
-    setTimeout(() => {
-      for (let i = 4; i <= 12; i++) {
-        const amp = simNodes[i];
-        if (!amp) continue;
-        amp.connections.forEach(tId => {
-          const target = simNodes.find(n => n.id === tId);
-          if (target) {
-            simParticles.push({
-              fromX: amp.x,
-              fromY: amp.y,
-              toX: target.x,
-              toY: target.y,
-              t: 0,
-              speed: 0.045 + Math.random() * 0.02,
-              color: '#ec4899',
-              targetNode: target
-            });
-          }
-        });
-      }
-    }, 1400);
-
-    function loop() {
-      drawNetworkGraph();
-      if (simParticles.length > 0 || isSimulating) {
-        simAnimationId = requestAnimationFrame(loop);
-      }
+    // Auto-init canvas if missing or unbuilt
+    if (!simCanvas || !simCtx || simNodes.length === 0 || simCanvas.width === 0) {
+      initCascadeSimulator('globalCascadeCanvas');
     }
 
-    if (simAnimationId) cancelAnimationFrame(simAnimationId);
-    loop();
-
-    setTimeout(() => {
+    if (!simNodes || simNodes.length === 0 || !simNodes[0]) {
       isSimulating = false;
       if (onComplete) onComplete();
-    }, 2800);
+      return;
+    }
+
+    isSimulating = true;
+
+    try {
+      // Reset all nodes except source
+      simNodes.forEach((n, idx) => {
+        n.active = idx === 0;
+      });
+      simParticles = [];
+
+      // Stage 1 Trigger (Source -> Platform Hubs)
+      const source = simNodes[0];
+      if (source && source.connections) {
+        source.connections.forEach(targetId => {
+          const target = simNodes.find(n => n.id === targetId);
+          if (target) {
+            simParticles.push({
+              fromX: source.x,
+              fromY: source.y,
+              toX: target.x,
+              toY: target.y,
+              t: 0,
+              speed: 0.025,
+              color: '#f59e0b',
+              targetNode: target
+            });
+          }
+        });
+      }
+
+      // Schedule Stage 2
+      setTimeout(() => {
+        for (let i = 1; i <= 3; i++) {
+          const inf = simNodes[i];
+          if (inf && inf.connections) {
+            inf.connections.forEach(tId => {
+              const target = simNodes.find(n => n.id === tId);
+              if (target) {
+                simParticles.push({
+                  fromX: inf.x,
+                  fromY: inf.y,
+                  toX: target.x,
+                  toY: target.y,
+                  t: 0,
+                  speed: 0.035,
+                  color: '#8b5cf6',
+                  targetNode: target
+                });
+              }
+            });
+          }
+        }
+      }, 700);
+
+      // Schedule Stage 3 (Mass Viral Wave)
+      setTimeout(() => {
+        for (let i = 4; i <= 12; i++) {
+          const amp = simNodes[i];
+          if (!amp) continue;
+          if (amp.connections) {
+            amp.connections.forEach(tId => {
+              const target = simNodes.find(n => n.id === tId);
+              if (target) {
+                simParticles.push({
+                  fromX: amp.x,
+                  fromY: amp.y,
+                  toX: target.x,
+                  toY: target.y,
+                  t: 0,
+                  speed: 0.045 + Math.random() * 0.02,
+                  color: '#ec4899',
+                  targetNode: target
+                });
+              }
+            });
+          }
+        }
+      }, 1400);
+
+      function loop() {
+        drawNetworkGraph();
+        if (simParticles.length > 0 || isSimulating) {
+          simAnimationId = requestAnimationFrame(loop);
+        }
+      }
+
+      if (simAnimationId) cancelAnimationFrame(simAnimationId);
+      loop();
+
+      setTimeout(() => {
+        isSimulating = false;
+        if (onComplete) onComplete();
+      }, 2800);
+    } catch (err) {
+      console.error("Simulation execution error:", err);
+      isSimulating = false;
+      if (onComplete) onComplete();
+    }
   }
 
   return {
