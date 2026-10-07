@@ -1,0 +1,1193 @@
+/* ==========================================================================
+   TrendFlow - Specialized Dashboard Components
+   Cards, Flowcharts, Timelines, Charts, and Analytics Panels
+   ========================================================================== */
+
+/* ==========================================================================
+   1. DOMAIN CARDS (GRID & DISPLAY)
+   ========================================================================== */
+
+.tf-domains-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 3rem;
+}
+
+.tf-domain-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tf-domain-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--domain-color, var(--accent-purple));
+  transition: height var(--transition-fast);
+}
+
+.tf-domain-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+}
+
+.tf-domain-card:hover::before {
+  height: 6px;
+}
+
+.tf-domain-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.tf-domain-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.tf-domain-growth {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.12);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-pill);
+}
+
+.tf-domain-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.tf-domain-desc {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.25rem;
+  flex-grow: 1;
+}
+
+.tf-domain-meta {
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.tf-domain-meta-val {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   2. TREND CARDS (TRENDING TOPICS)
+   ========================================================================== */
+
+.tf-toolbar {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.tf-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-pill {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filter-pill:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.filter-pill.active {
+  background: var(--accent-purple);
+  color: #ffffff;
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+}
+
+.tf-sort-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tf-sort-group label {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.tf-select {
+  background: #0f172a;
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.9rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+}
+
+.tf-select:focus {
+  border-color: var(--border-focus);
+}
+
+/* Trends Grid */
+.tf-trends-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+}
+
+.tf-trend-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.tf-trend-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.55);
+}
+
+.tf-trend-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+  gap: 0.5rem;
+}
+
+.tf-trend-growth-badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.12);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.tf-trend-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 0.35rem;
+  color: #ffffff;
+}
+
+.tf-trend-category {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.tf-trend-summary {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin-bottom: 1.25rem;
+  flex-grow: 1;
+}
+
+.tf-trend-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 1.25rem;
+}
+
+.tf-metric-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.tf-metric-icon {
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+.tf-metric-val {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.tf-metric-lbl {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.tf-trend-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tf-prop-strength-mini {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tf-prop-strength-mini strong {
+  color: var(--accent-cyan);
+}
+
+/* ==========================================================================
+   3. TREND DETAILS VIEW (THE HERO PIECE)
+   ========================================================================== */
+
+.tf-details-header-card {
+  background: linear-gradient(135deg, rgba(30, 27, 75, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.tf-details-back-bar {
+  margin-bottom: 1.25rem;
+}
+
+.tf-details-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.tf-details-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.tf-details-summary {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 850px;
+  line-height: 1.55;
+}
+
+/* Engagement 5-Stat Row */
+.tf-engagement-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.tf-eng-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all var(--transition-normal);
+}
+
+.tf-eng-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.tf-eng-icon {
+  font-size: 1.8rem;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tf-eng-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.tf-eng-val {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+.tf-eng-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.2rem;
+}
+
+/* ==========================================================================
+   4. WHY IS IT TRENDING? (VISUAL CARDS & TIMELINE)
+   ========================================================================== */
+
+.tf-why-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.tf-why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.tf-why-card {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  gap: 1rem;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.tf-why-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(139, 92, 246, 0.3);
+  transform: translateY(-2px);
+}
+
+.tf-why-icon-col {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.tf-why-body {
+  flex-grow: 1;
+}
+
+.tf-why-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.tf-why-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.tf-why-impact {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  background: rgba(6, 182, 212, 0.12);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-pill);
+}
+
+.tf-why-time {
+  font-size: 0.75rem;
+  color: var(--accent-purple);
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.tf-why-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+/* ==========================================================================
+   5. SECTOR & GROWTH CHARTS DUAL GRID
+   ========================================================================== */
+
+.tf-charts-dual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (max-width: 992px) {
+  .tf-charts-dual-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tf-chart-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.tf-chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.tf-chart-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tf-chart-canvas-wrap {
+  position: relative;
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tf-chart-canvas-wrap canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Sector Legend */
+.tf-sector-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+  justify-content: center;
+}
+
+.tf-sector-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-pill);
+}
+
+.tf-sector-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* ==========================================================================
+   6. PROPAGATION ANALYSIS (FLOW & GAUGE)
+   ========================================================================== */
+
+.tf-propagation-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.propagation-flow-track {
+  display: flex;
+  align-items: stretch;
+  gap: 0.85rem;
+  overflow-x: auto;
+  padding: 1.5rem 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.propagation-flow-track::-webkit-scrollbar {
+  height: 6px;
+}
+
+.propagation-flow-track::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
+.prop-stage-card {
+  min-width: 155px;
+  max-width: 175px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.1rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.prop-stage-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(139, 92, 246, 0.4);
+  transform: translateY(-2px);
+}
+
+.prop-stage-card.stage-peak {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(245, 158, 11, 0.1) 100%);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.prop-stage-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+
+.prop-stage-time {
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.prop-stage-icon {
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.prop-stage-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+}
+
+.prop-stage-entity {
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  line-height: 1.3;
+  margin-bottom: 0.6rem;
+}
+
+.prop-stage-metric {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent-purple);
+  background: rgba(139, 92, 246, 0.12);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-pill);
+  margin-top: auto;
+}
+
+.prop-stage-connector {
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  color: var(--accent-purple);
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+/* Propagation Strength Meter */
+.prop-strength-wrap {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.prop-strength-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.prop-strength-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.prop-strength-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.prop-strength-badge {
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-pill);
+}
+
+.prop-strength-value {
+  font-size: 1.9rem;
+  font-weight: 800;
+}
+
+.prop-meter-rail {
+  width: 100%;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.prop-meter-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  position: relative;
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.prop-meter-pulse {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 25px;
+  background: rgba(255, 255, 255, 0.4);
+  filter: blur(4px);
+  animation: sweepPulse 2s infinite ease-in-out;
+}
+
+@keyframes sweepPulse {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.prop-factors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1rem;
+}
+
+.prop-factor-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem;
+}
+
+.prop-factor-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.prop-factor-value {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.prop-subtext {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+/* Propagation 6 Breakdown Cards */
+.prop-breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.prop-breakdown-card {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+}
+
+.prop-card-top {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prop-card-icon {
+  font-size: 1.25rem;
+}
+
+.prop-card-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.prop-card-val {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  margin-bottom: 0.35rem;
+}
+
+.prop-card-desc {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   7. COMMUNITY & SENTIMENT DUAL SECTION
+   ========================================================================== */
+
+.tf-community-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+@media (max-width: 992px) {
+  .tf-community-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tf-sentiment-bar-wrap {
+  margin: 1.25rem 0;
+}
+
+.tf-sentiment-track {
+  height: 14px;
+  border-radius: var(--radius-pill);
+  display: flex;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.tf-sent-pos { background: #10b981; }
+.tf-sent-neu { background: #3b82f6; }
+.tf-sent-neg { background: #ef4444; }
+
+.tf-sentiment-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.tf-comments-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: 1.25rem;
+}
+
+.tf-comment-bubble {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.95rem;
+  display: flex;
+  gap: 0.85rem;
+}
+
+.tf-comment-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-cyan) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.tf-comment-content {
+  flex-grow: 1;
+}
+
+.tf-comment-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.tf-comment-author {
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.tf-comment-time {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.tf-comment-text {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   8. ABOUT PROJECT PAGE (ACADEMIC / IP LAB SPECIFIC)
+   ========================================================================== */
+
+.tf-about-header {
+  background: linear-gradient(135deg, rgba(30, 27, 75, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.tf-concept-flow-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem;
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.tf-concept-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.tf-concept-step {
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1.25rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 140px;
+}
+
+.tf-concept-step span {
+  font-size: 0.7rem;
+  color: var(--accent-cyan);
+  font-weight: 500;
+}
+
+.tf-concept-step.step-highlight {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(245, 158, 11, 0.25) 100%);
+  border-color: rgba(239, 68, 68, 0.5);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.25);
+}
+
+.tf-concept-arrow {
+  font-size: 1.25rem;
+  color: var(--accent-purple);
+  font-weight: 800;
+}
+
+/* ==========================================================================
+   9. INTERACTIVE CASCADE SIMULATOR CANVAS PANEL
+   ========================================================================== */
+
+.tf-simulator-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.tf-simulator-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.tf-sim-legend {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.sim-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.sim-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* ==========================================================================
+   10. REAL-TIME INDIA DASHBOARD EXTENSIONS
+   ========================================================================== */
+
+/* Current Trend Data Grid on Trend Details */
+.tf-data-snapshot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.tf-data-snapshot-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.tf-data-snapshot-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+  letter-spacing: 0.04em;
+}
+
+.tf-data-snapshot-val {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.tf-data-snapshot-val a {
+  color: var(--accent-cyan);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.tf-data-snapshot-val a:hover {
+  color: #ffffff;
+}
+
+/* Why People Are Engaging Section */
+.tf-engaging-card {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(6, 182, 212, 0.05) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.tf-engaging-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.tf-engaging-text {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Toast Notification for Real-Time Updates */
+.tf-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 9999;
+  background: #1e293b;
+  color: #ffffff;
+  border: 1px solid var(--border-focus);
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.25rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.tf-toast.visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+
+/* ========================================================================
+   DIRECT SHOPPING / FOOD DISCOVERY
+   ======================================================================== */
+.tf-discovery-section {
+  margin: 1.5rem 0 2rem;
+  padding: 1.35rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.tf-discovery-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.tf-discovery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: .75rem;
+}
+
+.tf-discovery-card {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  padding: 1rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,.025);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
+}
+
+.tf-discovery-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-cyan);
+  background: rgba(255,255,255,.05);
+}
+
+.tf-discovery-icon { font-size: 1.5rem; }
+.tf-discovery-name { font-weight: 800; }
+.tf-discovery-action { font-size: .78rem; color: var(--accent-cyan); }
+
+.tf-discovery-note {
+  margin: 1rem 0 0;
+  color: var(--text-muted);
+  font-size: .75rem;
+  line-height: 1.5;
+}
+
+.tf-inline-discovery {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  margin: .7rem 0;
+  padding: .55rem .7rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,.025);
+  color: var(--text-muted);
+  font-size: .76rem;
+}
+
+.inline-link-btn {
+  border: 0;
+  background: transparent;
+  color: var(--accent-cyan);
+  font-weight: 700;
+  cursor: pointer;
+  padding: .2rem;
+}
+
+.inline-link-btn:hover { text-decoration: underline; }
+
+@media (max-width: 640px) {
+  .tf-discovery-header { flex-direction: column; }
+  .tf-inline-discovery { align-items: flex-start; flex-direction: column; }
+}
